@@ -1,0 +1,26 @@
+{% extends 'kumgan/base.html' %}
+
+
+{% block content %}
+    <div class="container">
+    <div class="row">
+        <div class="col-lg-4 offset-lg-4 col-sm-10 offset-sm-1">
+            <div class="card my-5">
+                <div class="card-header text-center">
+                    Login
+                </div>
+                <div class="card-body">
+                    <form action="" method="post">
+                        {% csrf_token %}
+                       {{ form }}
+                        <input type="submit" class="btn btn-success text-center w-100 mb-3" value="Sign In">
+                        <a href="{% url "kumgan:signup" %}" class="small">Sign Up</a>
+                        <a href="/" class="float-right small">Home</a>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{%  endblock content %}
