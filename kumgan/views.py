@@ -2,14 +2,34 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import render, redirect
 from .forms import SignupForm, SigninForm
+from .models import Booking
 
 
 def index(request):
-    return render(request, "kumgan/index.html")
+    if request.user.is_superuser:  # Владелец
+        return redirect('admin/')
+    elif request.user.is_staff:  # Администратор
+        return render(request, 'kumgan/admin.html')
+    elif request.user.has_perm('kumgan.view_booking'):  # Сотрудник
+        print('Сотрудник')
+        return render(request, 'kumgan/staff.html')
+    elif request.user.is_active and request.user.username:  # Клиент
+        return render(request, 'kumgan/home.html')
+    else:
+        return render(request, 'kumgan/index.html')
 
 
 def home(request):
-    return render(request, "kumgan/home.html")
+    if request.user.is_superuser:  # Владелец
+        return redirect('admin/')
+    elif request.user.is_staff:  # Администратор
+        return render(request, 'kumgan/admin.html')
+    elif request.user.has_perm('kumgan.view_booking'):  # Сотрудник
+        print('Сотрудник')
+        return render(request, 'kumgan/staff.html')
+    elif request.user.is_authenticated:  # Клиент
+        return render(request, 'kumgan/home.html')
+    return render(request, 'kumgan/home.html')
 
 
 def signup(request):
@@ -19,7 +39,7 @@ def signup(request):
             user = form.save(commit=False)
             user.save()
             messages.success(request, "User saved")
-            return redirect("kumgan:signin")
+            return redirect("kumgan/signup.html")
         else:
             messages.error(request, "Error in form")
     else:
@@ -33,12 +53,18 @@ def signin(request):
         form = SigninForm(request.POST)
         username = form["username"].value()
         password = form["password"].value()
+        print(password)
+        print(username)
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
             messages.success(request, "Successfully logged in")
-            return redirect("kumgan:home")
+            print("Successfully logged in")
+            if request.user.is_superuser:  # Владелец
+                return redirect('kumgan:index')
+            return redirect('kumgan:home')
         else:
+            print("Invalid Username or Password")
             messages.error(request, "Invalid Username or Password")
     else:
         form = SigninForm()

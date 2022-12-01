@@ -1,24 +1,33 @@
 {% extends 'kumgan/base.html' %}
 
+{% load static %}
+{% block css %}
+<link rel="stylesheet" href="{% static 'kumgan/css/signin_signout.css' %}">
+{% endblock css %}
 
 {% block content %}
-    <div class="container">
-    <div class="row">
-        <div class="col-lg-4 offset-lg-4 col-sm-10 offset-sm-1">
-            <div class="card my-5">
-                <div class="card-header text-center">
-                    Login
-                </div>
-                <div class="card-body">
-                    <form action="" method="post">
-                        {% csrf_token %}
-                       {{ form }}
-                        <input type="submit" class="btn btn-success text-center w-100 mb-3" value="Sign In">
-                        <a href="{% url "kumgan:signup" %}" class="small">Sign Up</a>
-                        <a href="/" class="float-right small">Home</a>
-                    </form>
-                </div>
+<div class="container pt-5">
+    <div class="row justify-content-center text-center">
+        <div class="col-5">
+            <div>
+                <img src="{% static 'kumgan/images/logo.png' %}" height="240px" alt="logo"/>
             </div>
+        </div>
+        <div class="col-7">
+            <h1 class="sign_in_title">Войти</h1>
+                <form class="pt-5" method="post">
+                        {% csrf_token %}
+                    <div class="container">
+                        <div class="row justify-content-center">
+                    <div class="col-12 p-2"> {{ form.username }}</div>
+                  <div class="col-12 p-2"> {{ form.password }}</div>
+                            <button id="button_index" type="submit"  class="btn btn-outline-success text-center w-50 m-5">
+                                Войти
+                            </button>
+                    </div>
+                    </div>
+                    </form>
+
         </div>
     </div>
 </div>
