@@ -20,7 +20,8 @@ class Schedule(models.Model):
     status = models.BooleanField(default=False)
 
     def __str__(self):
-        return str(self.date) and str(self.date)
+        data = [self.date, self.time]
+        return str(data)
 
     class Meta:
         verbose_name = 'Schedule'
@@ -31,7 +32,7 @@ class Category_Transport(models.Model):
     type_of_car = models.CharField(max_length=20)
 
     def __str__(self):
-        return "Категории Транспорта"
+        return self.type_of_car
 
     class Meta:
         verbose_name = 'Category_Transport'
@@ -45,7 +46,10 @@ class Services(models.Model):
                                            on_delete=models.CASCADE, related_name="category_transport")
 
     def __str__(self):
-        return self.title_service
+        data = [
+            self.title_service,
+            self.category_transport.type_of_car]
+        return str(data)
 
     class Meta:
         verbose_name = 'Service'
@@ -63,9 +67,14 @@ class Booking(models.Model):
     status = models.BooleanField(default=False)
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="user")
 
-    def calculate_total_price(self):
-        total = self.total + Services.price_service
-        return total
+    # def save(self, *args, **kwargs):
+    #     total = self.total + Services.price_service
+    #     super(Booking, self).save()
+    def __str__(self):
+        return self.user.username
+
+    def get_absolute_url(self):
+        return f'check/{self.id}'
 
     class Meta:
         verbose_name = 'Booking'

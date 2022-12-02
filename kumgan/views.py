@@ -2,7 +2,8 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import render, redirect
 from .forms import SignupForm, SigninForm
-from .models import Booking
+from .models import Booking, Schedule
+from django.views.generic.edit import CreateView
 
 
 def index(request):
@@ -13,10 +14,19 @@ def index(request):
     elif request.user.has_perm('kumgan.view_booking'):  # Сотрудник
         print('Сотрудник')
         return render(request, 'kumgan/staff.html')
-    elif request.user.is_active and request.user.username:  # Клиент
-        return render(request, 'kumgan/home.html')
+    elif request.user.is_authenticated:  # Клиент
+        return redirect('kumgan:home')
     else:
         return render(request, 'kumgan/index.html')
+
+
+def check(request):
+    return render(request, 'kumgan/check.html')
+
+
+class BookingCreateView(CreateView):
+    model = Booking
+    fields = ['name']
 
 
 def home(request):
@@ -28,8 +38,8 @@ def home(request):
         print('Сотрудник')
         return render(request, 'kumgan/staff.html')
     elif request.user.is_authenticated:  # Клиент
-        return render(request, 'kumgan/home.html')
-    return render(request, 'kumgan/home.html')
+        data = Schedule.objects.all()
+        return render(request, 'kumgan/home.html', {'data': data})
 
 
 def signup(request):

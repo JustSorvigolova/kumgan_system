@@ -1,11 +1,29 @@
 {% extends 'kumgan/base.html' %}
-
+{% load static %}
 
 {% block title %} Kumgan {% endblock title %}
-{% block header %}
-
-{% endblock header %}
-
+{% block title_page %}
+    <span class="container">
+    <div class="row text-center">
+        <h2 class="col-12 title_of_page">Выберите время бронирования</h2>
+    </div>
+    </span>
+{% endblock title_page %}
 {% block content %}
-Hello client it's a home
+<main class="container">
+<div class="row">
+    {% for i in data %}
+        <div class="col-4">
+<div class="card border_time_date_card" style="width: 18rem;">
+  <div class="card-body text-center ">
+    <h5 class="card-title border_time_date">{{ i.time }}</h5>
+      <h5 class="card-title border_time_date">{{ i.date }}</h5>
+       <h5 class="card-title border_time_date">{{ i.box }}</h5>
+    <a href="{% url '' %}" class="btn btn-outline-success"> Выбрать </a>
+  </div>
+</div>
+</div>
+{% endfor %}
+</div>
+</main>
 {%  endblock content %}
