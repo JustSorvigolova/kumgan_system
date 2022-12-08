@@ -1,29 +1,95 @@
 {% extends 'kumgan/base.html' %}
 {% load static %}
-
 {% block title %} Kumgan {% endblock title %}
 {% block title_page %}
     <span class="container">
-    <div class="row text-center">
-        <h2 class="col-12 title_of_page">Выберите время бронирования</h2>
+    <div class="row text-center justify-content-center ">
+        <h2 class="col-1 title_of_page">Меню</h2>
     </div>
     </span>
 {% endblock title_page %}
+
+
 {% block content %}
-<main class="container">
-<div class="row">
-    {% for i in data %}
-        <div class="col-4">
-<div class="card border_time_date_card" style="width: 18rem;">
-  <div class="card-body text-center ">
-    <h5 class="card-title border_time_date">{{ i.time }}</h5>
-      <h5 class="card-title border_time_date">{{ i.date }}</h5>
-       <h5 class="card-title border_time_date">{{ i.box }}</h5>
-    <a href="{% url '' %}" class="btn btn-outline-success"> Выбрать </a>
-  </div>
-</div>
-</div>
-{% endfor %}
+<main class="container p-4">
+<div class="row justify-content-evenly">
+    {% if user.is_staff  %}
+        <a href="{% url 'kumgan:booking_view' %}" class="col-4 p-2">
+            <div class="card border_time_date_card" style="width: 18rem;">
+                <img src="{% static 'kumgan/images/booking.png' %}" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h2 class="card-title text-center title_of_page">Бронирования</h2>
+                </div>
+            </div>
+        </a>
+
+          <a href="{% url 'kumgan:box_create' %}" class="col-4 p-2">
+            <div class="card border_time_date_card" style="width: 18rem;">
+                <img src="{% static 'kumgan/images/box.png' %}" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h2 class="card-title text-center title_of_page">Боксы</h2>
+                </div>
+            </div>
+        </a>
+
+          <a href="{% url 'kumgan:price_create' %}" class="col-4 p-2">
+            <div class="card border_time_date_card" style="width: 18rem;">
+                <img src="{% static 'kumgan/images/price.png' %}" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h2 class="card-title text-center title_of_page">Прайс лист</h2>
+                </div>
+            </div>
+        </a>
+
+
+          <a href="{% url 'kumgan:schedule_create' %}" class="col-4 p-2">
+            <div class="card border_time_date_card" style="width: 18rem;">
+                <img src="{% static 'kumgan/images/schedule.png' %}" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h2 class="card-title text-center title_of_page">Расписание</h2>
+                </div>
+            </div>
+        </a>
+        <a href="{% url 'kumgan:category_create' %}" class="col-4 p-2 text-center">
+            <div class="card border_time_date_card  text-center" style="width: 18rem;">
+                <img src="{% static 'kumgan/images/category.png' %}" class="card-img-top text-center" alt="...">
+                <div class="card-body text-center">
+                    <h2 class="card-title text-center title_of_page">Категории</h2>
+                </div>
+            </div>
+        </a>
+
+ {#  ----------------------------------------------------------------------------------------------      #}
+        {% elif perms.kumgan.add_box %}
+        <div class="col-6">
+        <div class="card border_time_date_card" style="width: 18rem;">
+            <div class="card-body text-center ">
+                <h5 class="card-title ">Сотрудник</h5>
+                <h5 class="card-title "></h5>
+                <h5 class="card-title "></h5>
+                {#    <a href="{% url '' %}" class="btn btn-outline-success"> Выбрать </a>#}
+            </div>
+        </div>
+    </div>
+{#  ----------------------------------------------------------------------------------------------      #}
+    {% elif user.is_authenticated %}
+        <a href="{% url 'kumgan:booking' %}" class="col-3">
+            <div class="card border_time_date_card" style="width: 18rem;">
+                <img src="{% static 'kumgan/images/booking.png' %}" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h2 class="card-title text-center title_of_page">Бронировать</h2>
+                </div>
+            </div>
+        </a>
+        <a href="{% url 'kumgan:history' %}" class="col-3">
+            <div class="card border_time_date_card" style="width: 18rem;">
+                <img src="{% static 'kumgan/images/check.png' %}" class="card-img-top" alt="check">
+                <div class="card-body ">
+                    <h2 class="card-title  title_of_page">Мои Записи</h2>
+                </div>
+            </div>
+        </a>
+    {% endif %}
 </div>
 </main>
 {%  endblock content %}

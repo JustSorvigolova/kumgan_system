@@ -1,3 +1,75 @@
 {% extends 'kumgan/base.html' %}
 {% load static %}
 
+{% block title_page %}
+    <span class="container">
+    <div class="row text-center justify-content-center">
+        <h2 class="col-2 title_of_page">Чек {{ data.id }}</h2>
+    </div>
+    </span>
+{% endblock title_page %}
+{% block content %}
+
+
+    <div class="container pt-5 border_time_date_card">
+        <div class="row justify-content-center text-center ">
+             <h1 class="col-12 booked_green">Забронировано</h1>
+            <div class="col-5 m-2 card fw-bolder align-items-center">
+                Дата и время
+                <h2>{{ data.time_and_date }}</h2>
+            </div>
+            <div class="card m-2 align-items-center text-center  col-5 fw-bolder">
+                BOX
+                <h2> {{ data.get_box }}</h2>
+            </div>
+            <div class="m-2 col-4 fw-bolder text-center justify-content-center">
+                <div class="card text-center">
+                    Номер машины
+                    <h2>{{ data.number_car }}</h2>
+                </div>
+            </div>
+            <div class="card m-2 align-items-center text-center  col-5 fw-bolder">
+                Категория транспорта
+                <h2> {{ data.category_transport }}</h2>
+
+            </div>
+
+            <div class="card m-2 align-items-center text-center  col-5 fw-bolder">
+                Наименования услуг
+                {% for i in da %}
+                    <h2 class="col">  {{ i.get_service }}</h2>
+
+                {% endfor %}
+            </div>
+            <div class="card m-2 align-items-center text-center  col-5 fw-bolder">
+                Цены
+                {% for i in da %}
+                    <h2 class="col-2">{{ i.get_price_each }}</h2>
+                {% endfor %}
+            </div>
+            <div class="card m-2 align-items-center text-center  col-4 fw-bolder">
+                Общая ценна
+                <h2 class="col">
+                    {{ data.get_total }}
+                </h2>
+            </div>
+        <div class=" m-2 align-items-center text-center  col-4 fw-bolder">
+                <a class="text-center align-items-center " href="{% url 'kumgan:delete_booking' data.id %}">
+                   <button class="btn btn-outline-danger">Отменить</button>
+               </a>
+            </div>
+
+        <div class="card m-2 align-items-center text-center  col-4 fw-bolder">
+                 Статус
+            {% if data.time_and_date.status == True %}
+        <h2 class="booked_green">Завершен</h2>
+    {% else %}
+        <h1 class="booked_red">Незавершен</h1>
+    {% endif %}
+            </div>
+    </div>
+ </div>
+
+
+
+{% endblock %}

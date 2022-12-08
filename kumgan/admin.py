@@ -6,3 +6,4 @@ admin.site.register(Box)
 admin.site.register(Schedule)
 admin.site.register(Services)
 admin.site.register(Booking)
+

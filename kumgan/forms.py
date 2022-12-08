@@ -1,6 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
+from .models import Booking, Schedule, Box, Category_Transport, Services
 
 
 class SigninForm(forms.Form):
@@ -35,3 +36,17 @@ class SignupForm(UserCreationForm):
                 'placeholder': 'password',
             }),
         }
+
+
+# ['category_transport', 'time_and_date', 'title_service', 'number_car', 'status']
+class BookingForm(forms.ModelForm):
+    class Meta:
+        model = Booking
+        fields = ('category_transport', 'time_and_date', 'title_service', 'number_car')
+
+
+class BookingUpdateForm(forms.ModelForm):
+    class Meta:
+        model = Booking
+        fields = ['status']
+

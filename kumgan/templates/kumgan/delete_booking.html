@@ -1,0 +1,23 @@
+{% extends 'kumgan/base.html' %}
+{% load static %}
+
+{% block title_page %}
+    <span class="container">
+    <div class="row text-center justify-content-center">
+        <h2 class="col-2 title_of_page">Отменить бронирование</h2>
+    </div>
+    </span>
+{% endblock title_page %}
+
+{% block content %}
+      <form class="pt-5" method="post">
+                {% csrf_token %}
+                <div class="container">
+                    <div class="row justify-content-center">
+                        <button id="button_index" type="submit" class="btn btn-outline-danger text-center w-50 m-5">
+                            Отменить
+                        </button>
+                    </div>
+                </div>
+            </form>
+{% endblock %}
