@@ -12,6 +12,9 @@ class Box(models.Model):
     def __str__(self):
         return str(self.number_of_box)
 
+    def get_absolute_url(self):
+        return '/box_list'
+
     class Meta:
         verbose_name = 'Box'
         verbose_name_plural = 'Boxes'
@@ -28,6 +31,9 @@ class Schedule(models.Model):
     def get_box_box(self):
         return self.box.number_of_box
 
+    def get_absolute_url(self):
+        return '/schedule_list'
+
     class Meta:
         verbose_name = 'Schedule'
         verbose_name_plural = 'Schedules'
@@ -38,6 +44,9 @@ class Category_Transport(models.Model):
 
     def __str__(self):
         return self.type_of_car
+
+    def get_absolute_url(self):
+        return '/category_list'
 
     class Meta:
         verbose_name = 'Category_Transport'
@@ -61,10 +70,13 @@ class Services(models.Model):
         return self.price_service
 
     def get_total_item_price(self):
-        return self.amount * self.price_service
+        return self.amount * self.get_price()
 
     def get_final_price(self):
         return self.get_total_item_price()
+
+    def get_absolute_url(self):
+        return '/price_list'
 
     class Meta:
         verbose_name = 'Service'

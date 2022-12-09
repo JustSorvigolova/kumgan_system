@@ -11,14 +11,14 @@
 {% endblock title_page %}
 
 {% block content %}
-
+    {{ object_list }}
     <main class="container">
     <div class="row justify-content-evenly">
 {% for i in object_list %}
         <div class="col-4 card p-2 card_booking_view">
             <h4>Номер машины
                 <span class="text-danger">
-                   {{ i.number_car }}
+                   {{ i.time_and_date }}
                 </span>
 
             </h4>

@@ -1,10 +1,11 @@
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import render, redirect
-from .forms import SignupForm, SigninForm, BookingForm, BookingUpdateForm
-from .models import Booking, Schedule, Services
+from .forms import SignupForm, SigninForm, BookingForm, BookingUpdateForm, BoxUpdateForm, ServicesUpdateForm, \
+    ScheduleUpdateCreateForm, CategoryUpdateCreateForm
+from .models import Booking, Schedule, Services, Box, Category_Transport
 from django.core.exceptions import ObjectDoesNotExist
-from django.views.generic import DeleteView, ListView, DetailView, UpdateView
+from django.views.generic import DeleteView, ListView, DetailView, UpdateView, CreateView
 
 
 def index(request):
@@ -16,12 +17,13 @@ def index(request):
 
 def Check(request):
     try:
-        da = Booking.objects.filter(title_service__title_service_booking__user=request.user.id)
-        data = Booking.objects.filter(title_service__title_service_booking__user=request.user.id).last()
+        da = Booking.objects.filter(user=request.user)
+        data = Booking.objects.filter(user=request.user.id).last()
         context = {
             'data': data,
             'da': da
         }
+        print(da)
         return render(request, 'kumgan/check.html', context)
     except ObjectDoesNotExist:
         messages.warning(request, "Ошибка")
@@ -78,10 +80,102 @@ class BookingView(ListView):
     template_name = 'kumgan/booking_view.html'
 
 
+class PriceCreateView(CreateView):
+    model = Services
+    template_name = 'kumgan/price_create.html'
+    fields = ['title_service', 'price_service', 'category_transport']
+
+
+class PriceListView(ListView):
+    model = Services
+    template_name = 'kumgan/price_list.html'
+
+
+class PriceDeleteView(DeleteView):
+    model = Services
+    template_name = 'kumgan/price_delete.html'
+    success_url = '/price_list'
+
+
+class PriceUpdateView(UpdateView):
+    model = Services
+    template_name = 'kumgan/price_update.html'
+    form_class = ServicesUpdateForm
+
+
+class BoxCreate(CreateView):
+    model = Box
+    template_name = 'kumgan/box_create.html'
+    fields = ['number_of_box']
+
+
+class BoxListView(ListView):
+    model = Box
+    template_name = 'kumgan/box_list.html'
+
+
+class BoxUpdateView(UpdateView):
+    model = Box
+    template_name = 'kumgan/box_update.html'
+    form_class = BoxUpdateForm
+
+
+class BoxDeleteView(DeleteView):
+    model = Box
+    template_name = 'kumgan/box_delete.html'
+    success_url = '/box_list'
+
+
+class CategoryCreate(CreateView):
+    model = Category_Transport
+    template_name = 'kumgan/category_create.html'
+    fields = ['type_of_car']
+
+
+class CategoryListView(ListView):
+    model = Category_Transport
+    template_name = 'kumgan/category_list.html'
+
+
+class CategoryUpdateView(UpdateView):
+    model = Category_Transport
+    template_name = 'kumgan/category_update.html'
+    form_class = CategoryUpdateCreateForm
+
+
+class CategoryDeleteView(DeleteView):
+    model = Category_Transport
+    template_name = 'kumgan/box_delete.html'
+    success_url = '/category_list'
+
+
 class BookingUpdate(UpdateView):
     model = Booking
     template_name = 'kumgan/booking_update.html'
     form_class = BookingUpdateForm
+
+
+class ScheduleCreate(CreateView):
+    model = Schedule
+    template_name = 'kumgan/schedule_create.html'
+    form_class = ScheduleUpdateCreateForm
+
+
+class ScheduleListView(ListView):
+    model = Schedule
+    template_name = 'kumgan/schedule_list.html'
+
+
+class ScheduleUpdateView(UpdateView):
+    model = Schedule
+    template_name = 'kumgan/schedule_update.html'
+    form_class = ScheduleUpdateCreateForm
+
+
+class ScheduleDeleteView(DeleteView):
+    model = Schedule
+    template_name = 'kumgan/box_delete.html'
+    success_url = '/schedule_list'
 
 
 def signup(request):

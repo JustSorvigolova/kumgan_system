@@ -21,10 +21,8 @@
                     <div class="row justify-content-center">
                         <div class="col-6">{{ forms.category_transport|as_crispy_field }}</div>
                          <div class="col-6">{{ forms.time_and_date|as_crispy_field }}</div>
-                         <div class="col-12">{{ forms.title_service|as_crispy_field }}</div>
+                         <div class="col-12">{{ forms.title_service }}</div>
                          <div class="col-5">{{ forms.number_car|as_crispy_field }}</div>
-                         <div class="col-5">{{ forms.time_and_date|as_crispy_field }}</div>
-
                         <button id="button_index" type="submit" class="btn btn-outline-success text-center w-50 m-5">
                             Забронировать
                         </button>

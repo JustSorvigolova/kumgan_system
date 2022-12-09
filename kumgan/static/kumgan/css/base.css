@@ -12,10 +12,10 @@ a{
     text-decoration: none;
 }
 .title_of_page {
-     font-family: 'Rubik Mono One', sans-serif;
+    font-family: 'Rubik Mono One', sans-serif;
     font-style: normal;
     font-weight: 400;
-    font-size: 24px;
+    font-size: 25px;
     line-height: 30px;
     display: flex;
     letter-spacing: 0.04em;

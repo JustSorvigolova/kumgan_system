@@ -42,7 +42,7 @@ class SignupForm(UserCreationForm):
 class BookingForm(forms.ModelForm):
     class Meta:
         model = Booking
-        fields = ('category_transport', 'time_and_date', 'title_service', 'number_car')
+        fields = ['category_transport', 'time_and_date', 'title_service', 'number_car']
 
 
 class BookingUpdateForm(forms.ModelForm):
@@ -50,3 +50,30 @@ class BookingUpdateForm(forms.ModelForm):
         model = Booking
         fields = ['status']
 
+
+class BoxUpdateForm(forms.ModelForm):
+    class Meta:
+        model = Box
+        fields = ('number_of_box', )
+
+
+class ServicesUpdateForm(forms.ModelForm):
+    class Meta:
+        model = Services
+        fields = ('title_service', 'price_service', 'category_transport',)
+
+
+class ScheduleUpdateCreateForm(forms.ModelForm):
+    class Meta:
+        model = Schedule
+        fields = ['time_date', 'box']
+
+        widgets = {
+            "time_date": forms.TextInput(attrs={'type': 'datetime-local'})
+        }
+
+
+class CategoryUpdateCreateForm(forms.ModelForm):
+    class Meta:
+        model = Category_Transport
+        fields = ['type_of_car']
