@@ -37,35 +37,38 @@
             <div class="card m-2 align-items-center text-center  col-5 fw-bolder">
                 Наименования услуг
                 {% for i in da %}
-                    <h2 class="col">  {{ i.get_service }}</h2>
+                    <h2 class="col">{{ i.get_service }}</h2>
                 {% endfor %}
             </div>
-            <div class="card m-2 align-items-center text-center  col-5 fw-bolder">
-                Цены
-                {% for i in da %}
-                    <h2 class="col-2">{{ i.get_price_each }}</h2>
-                {% endfor %}
-            </div>
+{#            <div class="card m-2 align-items-center text-center  col-5 fw-bolder">#}
+{#                Цены#}
+{#                {% for i in da %}#}
+{#                    <h2 class="col-2">{{ i.get_price_each }}</h2>#}
+{#                {% endfor %}#}
+{#            </div>#}
             <div class="card m-2 align-items-center text-center  col-4 fw-bolder">
                 Общая ценна
                 <h2 class="col">
-                    {{ data.get_total }}
+                    {% for i in da %}
+                    {{ i.get_total }}
+                    {% endfor %}
                 </h2>
             </div>
-        <div class=" m-2 align-items-center text-center  col-4 fw-bolder">
-                <a class="text-center align-items-center " href="{% url 'kumgan:delete_booking' data.id %}">
-                   <button class="btn btn-outline-danger">Отменить</button>
+        <div class="align-items-center text-center  col-4 ">
+                <a type="button" class="text-center btn btn-outline-danger" href="{% url 'kumgan:delete_booking' data.id  %}">
+                  Отменить
                </a>
             </div>
 
-        <div class="card m-2 align-items-center text-center  col-4 fw-bolder">
-                 Статус
-            {% if data.time_and_date.status == True %}
-        <h2 class="booked_green">Завершен</h2>
-    {% else %}
-        <h1 class="booked_red">Незавершен</h1>
-    {% endif %}
+            <div class="card m-2 align-items-center text-center  col-4 fw-bolder">
+                Статус
+
+                {% if data.status == True %}
+                    <h2 class="booked_green">Завершен</h2>
+                {% else %}
+                    <h1 class="booked_red">Незавершен</h1>
+                {% endif %}
             </div>
+        </div>
     </div>
- </div>
 {% endblock %}

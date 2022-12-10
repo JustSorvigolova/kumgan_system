@@ -98,8 +98,8 @@ class Booking(models.Model):
 
     def get_total(self):
         total = 0
-        for product in self.title_service.all():
-            total += product.get_final_price()
+        for i in self.title_service.all():
+            total += i.get_final_price()
         return total
 
     def get_box(self):
@@ -107,16 +107,15 @@ class Booking(models.Model):
         return box
 
     def get_service(self):
-        service = ''
+        service= ''
         for i in self.title_service.all():
             service = i.get_name_of_service()
         return service
 
-    def get_price_each(self):
-        price = 0
-        for i in self.title_service.all():
-            price = i.get_price()
-        return price
+    # def get_price_each(self):
+    #     for i in self.title_service.all():
+    #         price = i.get_total_item_price()
+    #         return price
 
     def get_absolute_url(self):
         return '/home'

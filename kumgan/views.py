@@ -17,13 +17,12 @@ def index(request):
 
 def Check(request):
     try:
-        da = Booking.objects.filter(user=request.user)
-        data = Booking.objects.filter(user=request.user.id).last()
+        da = Booking.objects.filter(user=request.user.id)[:1]
+        data = Booking.objects.filter(user_id=request.user).last()
         context = {
             'data': data,
             'da': da
         }
-        print(da)
         return render(request, 'kumgan/check.html', context)
     except ObjectDoesNotExist:
         messages.warning(request, "Ошибка")
@@ -45,39 +44,64 @@ class BookingDeleteView(DeleteView):
 
 
 def home(request):
+    data = Booking.objects.filter(user_id=request.user)[:1]
+
     if request.user.is_superuser:  # Владелец
         return redirect('admin/')
-    elif request.user.is_staff or request.user.has_perm('kumgan.add_booking')\
-            or request.user.is_authenticated:
-        return render(request, 'kumgan/home.html')
+    elif request.user.is_authenticated:
+        return render(request, 'kumgan/home.html', {'data': data})
     else:
         return render(request, 'kumgan/index.html')
 
 
-def Booking_create(request):
-    error = ''
-    if request.method == "POST":
+# def Booking_create(request):
+#     error = ''
+#     if request.method == "POST":
+#         form = BookingForm(request.POST)
+#         if form.is_valid():
+#             booking = form.save(commit=False)
+#             booking.user = request.user
+#             booking.status = False
+#             booking.save()
+#             print('success booking')
+#             return redirect('kumgan:check')
+#         else:
+#             messages.error(request, "Error in form")
+#     form = BookingForm()
+#     data = {
+#         'forms': form,
+#         'error': error,
+#     }
+#     return render(request, 'kumgan/booking.html', data)
+
+
+class BookingCreateView(CreateView):
+    fields = ['category_transport', 'time_and_date', 'title_service', 'number_car']
+    template_name = 'kumgan/booking.html'
+
+    def get_queryset(self):
+        """Return the last five published questions."""
+        return Booking.objects.all()
+
+    def post(self, request, *args, **kwargs):
         form = BookingForm(request.POST)
         if form.is_valid():
             booking = form.save(commit=False)
-            booking.user = request.user
+            booking.user = self.request.user
             booking.status = False
             booking.save()
-            print('success booking')
             return redirect('kumgan:check')
-        else:
-            messages.error(request, "Error in form")
-    form = BookingForm()
-    data = {
-        'forms': form,
-        'error': error,
-    }
-    return render(request, 'kumgan/booking.html', data)
+        return render(request, 'kumgan/booking.html', {'form': form})
 
 
 class BookingView(ListView):
     model = Booking
     template_name = 'kumgan/booking_view.html'
+
+
+class BookingView_staff(ListView):
+    model = Booking
+    template_name = 'kumgan/booking_view_staff.html'
 
 
 class PriceCreateView(CreateView):
@@ -174,7 +198,7 @@ class ScheduleUpdateView(UpdateView):
 
 class ScheduleDeleteView(DeleteView):
     model = Schedule
-    template_name = 'kumgan/box_delete.html'
+    template_name = 'kumgan/schedule_delete.html'
     success_url = '/schedule_list'
 
 

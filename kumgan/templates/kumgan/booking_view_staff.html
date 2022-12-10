@@ -32,9 +32,6 @@
                  <h4 class="booked_red">Незавершен</h4>
              {% endif %}
             </div>
-            {% if i.status == False %}
-                <a href="{% url 'kumgan:booking_update'  i.id %}" type="button" class="btn btn-outline-dark">Подробнее</a>
-             {% endif %}
         </div>
     {% endfor %}
 
