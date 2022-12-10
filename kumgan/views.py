@@ -26,15 +26,7 @@ def Check(request):
         return render(request, 'kumgan/check.html', context)
     except ObjectDoesNotExist:
         messages.warning(request, "Ошибка")
-        return redirect("/")
-
-
-def list_client_booking_history(request):
-    data = Booking.objects.filter(user=request.user)
-    context = {
-        'data': data
-    }
-    return render(request, 'kumgan/list_clinet_history.html', context)
+        return redirect("/home")
 
 
 class BookingDeleteView(DeleteView):
